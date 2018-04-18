@@ -1,4 +1,4 @@
-const SwaggerAPI = require('../swagger-api');
+const SwaggerAPI = require('../../dist/util/esi-api');
 
 function isArrayResponse(route) {
   let schema = route.responseData['schema'];

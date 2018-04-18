@@ -8,7 +8,7 @@ const logger = require('jsdoc/util/logger');
 
 const parseParam = require('./route-parameter');
 const parseResult = require('./route-result');
-const SwaggerAPI = require('../swagger-api');
+const SwaggerAPI = require('../../dist/util/esi-api');
 
 function checkTypeMatch(name, doc, expected) {
   if (doc && doc.type && doc.type['names'] && doc.type['names'].length > 0) {

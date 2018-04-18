@@ -7,7 +7,7 @@
   },
   "source": {
     "include": [
-      "src"
+      "dist/src"
     ],
     "includePattern": ".js$",
     "excludePattern": "(node_modules|docs|lib|util|__tests__)"
