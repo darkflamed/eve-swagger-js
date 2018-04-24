@@ -28,6 +28,6 @@ export declare class Wallet {
      * @returns An iterator over the character's transactions
      */
     transactions(): AsyncIterableIterator<esi.character.WalletTransaction>;
-    private getJournal(fromID?);
-    private getTransaction(fromID?);
+    private getJournal;
+    private getTransaction;
 }

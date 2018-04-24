@@ -40,7 +40,7 @@ export declare class Autopilot {
      * @return An empty promise resolving when the request finishes
      */
     prepend(id: number): Promise<undefined>;
-    private waypoint(dest, clearWaypoints, prependWaypoint);
+    private waypoint;
 }
 /**
  * An api adapter that provides functions for modifying the character's in-game

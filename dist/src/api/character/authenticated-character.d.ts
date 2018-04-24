@@ -68,7 +68,7 @@ export declare class AuthenticatedCharacter extends r.impl.SimpleResource implem
     readonly ui: UI;
     readonly wallet: Wallet;
     readonly kills: IteratedKillmails;
-    private recentKillmails(maxKillId?);
+    private recentKillmails;
     /**
      * @returns The character's current jump fatigue
      */
@@ -83,7 +83,7 @@ export declare class AuthenticatedCharacter extends r.impl.SimpleResource implem
      * @returns An iterator over the character's mining ledger
      */
     miningLedger(): AsyncIterableIterator<esi.character.MiningRecord>;
-    private getMiningPage(page);
+    private getMiningPage;
     /**
      * @returns The character's available jump clones
      */

@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const names_1 = require("../../internal/names");
 const r = require("../../internal/resource-api");
@@ -22,34 +14,26 @@ class Corporation {
     /**
      * @returns The public info of the corporation
      */
-    details() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return getDetails(this.agent, yield this.ids());
-        });
+    async details() {
+        return getDetails(this.agent, await this.ids());
     }
     /**
      * @returns The alliance history of the corporation
      */
-    history() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return getHistory(this.agent, yield this.ids());
-        });
+    async history() {
+        return getHistory(this.agent, await this.ids());
     }
     /**
      * @returns URL lookup information for the corporation icon images
      */
-    icons() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return getIcons(this.agent, yield this.ids());
-        });
+    async icons() {
+        return getIcons(this.agent, await this.ids());
     }
     /**
      * @returns Loyalty offers available for the NPC corporation
      */
-    loyaltyOffers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return getLoyaltyOffers(this.agent, yield this.ids());
-        });
+    async loyaltyOffers() {
+        return getLoyaltyOffers(this.agent, await this.ids());
     }
     /**
      * @esi_route ~get_corporations_corporation_id

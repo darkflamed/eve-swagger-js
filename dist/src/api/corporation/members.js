@@ -1,24 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 const characters_1 = require("../character/characters");
@@ -227,26 +207,22 @@ class IteratedMembers extends r.impl.SimpleIteratedResource {
      *
      * @returns An iterator over the roles of each member
      */
-    roles() {
-        return __asyncGenerator(this, arguments, function* roles_1() {
-            let roles = yield __await(getRoles(this.agent));
-            for (let r of roles) {
-                yield [r.character_id, r];
-            }
-        });
+    async *roles() {
+        let roles = await getRoles(this.agent);
+        for (let r of roles) {
+            yield [r.character_id, r];
+        }
     }
     /**
      * @esi_route get_corporations_corporation_id_members_titles
      *
      * @returns An iterator over the title ids assigned to each member
      */
-    titles() {
-        return __asyncGenerator(this, arguments, function* titles_1() {
-            let titles = yield __await(getTitles(this.agent));
-            for (let t of titles) {
-                yield [t.character_id, t.titles];
-            }
-        });
+    async *titles() {
+        let titles = await getTitles(this.agent);
+        for (let t of titles) {
+            yield [t.character_id, t.titles];
+        }
     }
     /**
      * @esi_route get_corporations_corporation_id_membertracking
@@ -254,13 +230,11 @@ class IteratedMembers extends r.impl.SimpleIteratedResource {
      * @returns An iterator over the login status and tracking details of every
      *     member
      */
-    tracking() {
-        return __asyncGenerator(this, arguments, function* tracking_1() {
-            let tracking = yield __await(getTracking(this.agent));
-            for (let t of tracking) {
-                yield [t.character_id, t];
-            }
-        });
+    async *tracking() {
+        let tracking = await getTracking(this.agent);
+        for (let t of tracking) {
+            yield [t.character_id, t];
+        }
     }
 }
 exports.IteratedMembers = IteratedMembers;
@@ -291,60 +265,52 @@ function makeMembers(agent) {
     };
 }
 exports.makeMembers = makeMembers;
-function getMembersAsArray(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_members', {
-            path: { corporation_id: corpID }
-        }, agent.ssoToken).then(result => result.map(e => e.character_id));
-    });
+async function getMembersAsArray(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_members', {
+        path: { corporation_id: corpID }
+    }, agent.ssoToken).then(result => result.map(e => e.character_id));
 }
-function getTitles(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_members_titles', {
-            path: { corporation_id: corpID }
-        }, agent.ssoToken);
-    });
+async function getTitles(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_members_titles', {
+        path: { corporation_id: corpID }
+    }, agent.ssoToken);
 }
-function getRoles(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_roles', {
-            path: { corporation_id: corpID }
-        }, agent.ssoToken);
-    });
+async function getRoles(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_roles', {
+        path: { corporation_id: corpID }
+    }, agent.ssoToken);
 }
-function getTracking(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_membertracking', {
-            path: { corporation_id: corpID }
-        }, agent.ssoToken);
-    });
+async function getTracking(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_membertracking', {
+        path: { corporation_id: corpID }
+    }, agent.ssoToken);
 }
 //# sourceMappingURL=members.js.map

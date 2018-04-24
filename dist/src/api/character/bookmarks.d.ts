@@ -22,6 +22,6 @@ export declare class Bookmarks {
      * @returns An iterator over the folders for bookmark management
      */
     folders(): AsyncIterableIterator<esi.character.BookmarksFolder>;
-    private getDetails();
-    private getFolders();
+    private getDetails;
+    private getFolders;
 }

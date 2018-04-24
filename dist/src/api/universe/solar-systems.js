@@ -1,16 +1,4 @@
 "use strict";
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const search_1 = require("../../internal/search");
 const names_1 = require("../../internal/names");
@@ -275,13 +263,11 @@ class IteratedSolarSystems extends r.impl.SimpleIteratedResource {
      * @returns Jump statistics for every solar system in the universe, besides
      *    worm hole systems
      */
-    jumpStats() {
-        return __asyncGenerator(this, arguments, function* jumpStats_1() {
-            let stats = yield __await(getJumpStats(this.agent));
-            for (let s of stats) {
-                yield [s.system_id, s.ship_jumps];
-            }
-        });
+    async *jumpStats() {
+        let stats = await getJumpStats(this.agent);
+        for (let s of stats) {
+            yield [s.system_id, s.ship_jumps];
+        }
     }
     /**
      * @esi_route get_universe_system_kills
@@ -289,41 +275,35 @@ class IteratedSolarSystems extends r.impl.SimpleIteratedResource {
      * @returns Kill statistics for every solar system in the universe, besides
      *    worm hole systems
      */
-    killStats() {
-        return __asyncGenerator(this, arguments, function* killStats_1() {
-            let stats = yield __await(getKillStats(this.agent));
-            for (let s of stats) {
-                yield [s.system_id, s];
-            }
-        });
+    async *killStats() {
+        let stats = await getKillStats(this.agent);
+        for (let s of stats) {
+            yield [s.system_id, s];
+        }
     }
     /**
      * @esi_route get_sovereignty_map
      *
      * @returns Sovereignty information for all solar systems
      */
-    sovereignty() {
-        return __asyncGenerator(this, arguments, function* sovereignty_1() {
-            let sov = yield __await(getSovereignty(this.agent));
-            for (let s of sov) {
-                yield [s.system_id, s];
-            }
-        });
+    async *sovereignty() {
+        let sov = await getSovereignty(this.agent);
+        for (let s of sov) {
+            yield [s.system_id, s];
+        }
     }
     /**
      * @esi_route get_industry_systems
      *
      * @returns Industry cost indices for all solar systems
      */
-    costIndices() {
-        return __asyncGenerator(this, arguments, function* costIndices_1() {
-            let costs = yield __await(getCostIndices(this.agent));
-            for (let c of costs) {
-                yield [
-                    c.solar_system_id, c.cost_indices
-                ];
-            }
-        });
+    async *costIndices() {
+        let costs = await getCostIndices(this.agent);
+        for (let c of costs) {
+            yield [
+                c.solar_system_id, c.cost_indices
+            ];
+        }
     }
     /**
      * @esi_route post_universe_names [system]

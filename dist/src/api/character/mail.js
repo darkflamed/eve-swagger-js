@@ -1,29 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncIterator) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator];
-    return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 /**
@@ -277,23 +252,10 @@ class IteratedLabels extends r.impl.SimpleIteratedResource {
     /**
      * @returns The unread message count within each label
      */
-    unreadCount() {
-        return __asyncGenerator(this, arguments, function* unreadCount_1() {
-            try {
-                for (var _a = __asyncValues(this.details()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                    let [id, label] = yield __await(_b.value);
-                    yield [id, label.unread_count];
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            var e_1, _c;
-        });
+    async *unreadCount() {
+        for await (let [id, label] of this.details()) {
+            yield [id, label.unread_count];
+        }
     }
 }
 exports.IteratedLabels = IteratedLabels;
@@ -398,23 +360,21 @@ function getSummaryFromMessage(id, message) {
 function getHeaders(agent, labels) {
     return r.impl.makeMaxIDStreamer(fromID => getHeaderPage(agent, labels, fromID), e => e.mail_id || 0, 50);
 }
-function getHeaderPage(agent, labels, fromID) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let labelIDS;
-        if (Array.isArray(labels)) {
-            labelIDS = labels;
-        }
-        else if (labels instanceof Set) {
-            labelIDS = Array.from(labels);
-        }
-        else {
-            labelIDS = yield labels();
-        }
-        return agent.agent.request('get_characters_character_id_mail', {
-            path: { character_id: agent.id },
-            query: { labels: labelIDS, last_mail_id: fromID }
-        }, agent.ssoToken);
-    });
+async function getHeaderPage(agent, labels, fromID) {
+    let labelIDS;
+    if (Array.isArray(labels)) {
+        labelIDS = labels;
+    }
+    else if (labels instanceof Set) {
+        labelIDS = Array.from(labels);
+    }
+    else {
+        labelIDS = await labels();
+    }
+    return agent.agent.request('get_characters_character_id_mail', {
+        path: { character_id: agent.id },
+        query: { labels: labelIDS, last_mail_id: fromID }
+    }, agent.ssoToken);
 }
 function getMessage(agent, id) {
     return agent.agent.request('get_characters_character_id_mail_mail_id', { path: { character_id: agent.id, mail_id: id } }, agent.ssoToken);

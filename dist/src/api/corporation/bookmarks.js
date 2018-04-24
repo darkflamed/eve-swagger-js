@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 /**
@@ -42,33 +34,29 @@ class Bookmarks {
         }
         return this.folders_();
     }
-    getDetailsPage(page) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corpID;
-            if (typeof this.agent.id === 'number') {
-                corpID = this.agent.id;
-            }
-            else {
-                corpID = yield this.agent.id();
-            }
-            return this.agent.agent.request('get_corporations_corporation_id_bookmarks', {
-                path: { corporation_id: corpID }, query: { page: page }
-            }, this.agent.ssoToken);
-        });
+    async getDetailsPage(page) {
+        let corpID;
+        if (typeof this.agent.id === 'number') {
+            corpID = this.agent.id;
+        }
+        else {
+            corpID = await this.agent.id();
+        }
+        return this.agent.agent.request('get_corporations_corporation_id_bookmarks', {
+            path: { corporation_id: corpID }, query: { page: page }
+        }, this.agent.ssoToken);
     }
-    getFoldersPage(page) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corpID;
-            if (typeof this.agent.id === 'number') {
-                corpID = this.agent.id;
-            }
-            else {
-                corpID = yield this.agent.id();
-            }
-            return this.agent.agent.request('get_corporations_corporation_id_bookmarks_folders', {
-                path: { corporation_id: corpID }, query: { page: page }
-            }, this.agent.ssoToken);
-        });
+    async getFoldersPage(page) {
+        let corpID;
+        if (typeof this.agent.id === 'number') {
+            corpID = this.agent.id;
+        }
+        else {
+            corpID = await this.agent.id();
+        }
+        return this.agent.agent.request('get_corporations_corporation_id_bookmarks_folders', {
+            path: { corporation_id: corpID }, query: { page: page }
+        }, this.agent.ssoToken);
     }
 }
 exports.Bookmarks = Bookmarks;

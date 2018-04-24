@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 /**
@@ -125,42 +117,36 @@ function makeContracts(agent) {
     };
 }
 exports.makeContracts = makeContracts;
-function getContracts(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_contracts', { path: { corporation_id: corpID } }, agent.ssoToken);
-    });
+async function getContracts(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_contracts', { path: { corporation_id: corpID } }, agent.ssoToken);
 }
-function getContractItems(agent, id) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_contracts_contract_id_items', { path: { corporation_id: corpID, contract_id: id } }, agent.ssoToken);
-    });
+async function getContractItems(agent, id) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_contracts_contract_id_items', { path: { corporation_id: corpID, contract_id: id } }, agent.ssoToken);
 }
-function getContractBids(agent, id, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_contracts_contract_id_bids', {
-            path: { corporation_id: corpID, contract_id: id }, query: { page: page }
-        }, agent.ssoToken).then(result => ({ result, maxPages: undefined }));
-    });
+async function getContractBids(agent, id, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_contracts_contract_id_bids', {
+        path: { corporation_id: corpID, contract_id: id }, query: { page: page }
+    }, agent.ssoToken).then(result => ({ result, maxPages: undefined }));
 }
 //# sourceMappingURL=contracts.js.map

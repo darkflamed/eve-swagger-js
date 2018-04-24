@@ -80,9 +80,9 @@ export default class Cache<V> {
      * Remove all values from the cache.
      */
     clear(): void;
-    private static getExpirationTimestamp<V>(e);
-    private static isEntryValid<V>(e, now);
-    private startCacheTimerMaybe(now, expirationTimestamp);
-    private stopCacheTimer();
-    private cleanCache();
+    private static getExpirationTimestamp;
+    private static isEntryValid;
+    private startCacheTimerMaybe;
+    private stopCacheTimer;
+    private cleanCache;
 }

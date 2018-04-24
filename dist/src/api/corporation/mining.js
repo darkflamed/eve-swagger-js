@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 /**
@@ -113,17 +105,15 @@ class Mining {
     /**
      * @returns The scheduled mining extractions for the corporation
      */
-    extractions() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corpID;
-            if (typeof this.agent.id === 'number') {
-                corpID = this.agent.id;
-            }
-            else {
-                corpID = yield this.agent.id();
-            }
-            return this.agent.agent.request('get_corporation_corporation_id_mining_extractions', { path: { corporation_id: corpID } }, this.agent.ssoToken);
-        });
+    async extractions() {
+        let corpID;
+        if (typeof this.agent.id === 'number') {
+            corpID = this.agent.id;
+        }
+        else {
+            corpID = await this.agent.id();
+        }
+        return this.agent.agent.request('get_corporation_corporation_id_mining_extractions', { path: { corporation_id: corpID } }, this.agent.ssoToken);
     }
     observers(ids) {
         if (ids === undefined) {
@@ -141,32 +131,28 @@ class Mining {
     }
 }
 exports.Mining = Mining;
-function getDivisions(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_divisions', { path: { corporation_id: corpID } }, agent.ssoToken);
-    });
+async function getDivisions(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_divisions', { path: { corporation_id: corpID } }, agent.ssoToken);
 }
 function getObservers(agent) {
     return r.impl.makePageBasedStreamer(page => getObserverPage(agent, page), 1000);
 }
-function getObserverPage(agent, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporation_corporation_id_mining_observers', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
-    });
+async function getObserverPage(agent, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporation_corporation_id_mining_observers', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
 }
 function getDetailsFromLedger(agent, id) {
     // Just get the first page so we can filter the last updated from the first
@@ -181,18 +167,16 @@ function getDetailsFromLedger(agent, id) {
         };
     });
 }
-function getLedgerPage(agent, id, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporation_corporation_id_mining_observers_observer_id', {
-            path: { corporation_id: corpID, observer_id: id }, query: { page: page }
-        }, agent.ssoToken);
-    });
+async function getLedgerPage(agent, id, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporation_corporation_id_mining_observers_observer_id', {
+        path: { corporation_id: corpID, observer_id: id }, query: { page: page }
+    }, agent.ssoToken);
 }
 //# sourceMappingURL=mining.js.map

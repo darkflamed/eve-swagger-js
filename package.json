@@ -11,16 +11,16 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "prepublish": "npm-run-all clean build test",
+    "prepublish": "npm-run-all build test",
     "test": "jest",
     "clean": "rm -rf ./dist; rm -rf ./node_modules/.jest-cache",
     "build": "npm-run-all build:util gen:esi build:src",
-    "build:util": "tsc -p ./tsconfig.util.json",
-    "build:src": "tsc -p ./tsconfig.src.json",
+    "build:util": "tsc -t \"ESNext\" -p ./tsconfig.util.json",
+    "build:src": "tsc -t \"ESNext\" -p ./tsconfig.src.json",
     "gen:esi": "node dist/util/type-generator",
     "watch": "npm-run-all --parallel watch:util watch:src",
-    "watch:util": "tsc -w -p ./tsconfig.util.json",
-    "watch:src": "tsc -w -p ./tsconfig.src.json",
+    "watch:util": "tsc -t \"ESNext\" -w -p ./tsconfig.util.json",
+    "watch:src": "tsc -t \"ESNext\" -w -p ./tsconfig.src.json",
     "gen:docs": "jsdoc --configure ./jsdoc.json"
   },
   "jest": {
@@ -60,14 +60,14 @@
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
-    "@types/jest": "^21.1.0",
+    "@types/jest": "^21.1.10",
     "@types/swagger-schema-official": "^2.0.6",
     "deep-equal": "^1.0.1",
-    "jest": "^21.1.0",
+    "jest": "^21.2.1",
     "npm-run-all": "^4.1.1",
     "pluralize": "^6.0.0",
     "sync-request": "^4.1.0",
-    "ts-jest": "^21.0.1",
-    "typescript": "^2.5.2"
+    "ts-jest": "^21.2.4",
+    "typescript": "^2.9.0-dev.20180424"
   }
 }

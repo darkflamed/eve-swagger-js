@@ -22,7 +22,7 @@ export declare class AuthenticatedAlliance implements r.Async<AllianceAPI>, r.Si
      * @returns Get an iterator over the contacts of the alliance
      */
     contacts(): AsyncIterableIterator<esi.alliance.Contact>;
-    private getContactsPage(page);
+    private getContactsPage;
     private readonly base;
     details(): Promise<esi.alliance.Alliance>;
     corporations(): Promise<number[]>;

@@ -1,29 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncIterator) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator];
-    return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const search_1 = require("../internal/search");
 const r = require("../internal/resource-api");
@@ -78,14 +53,12 @@ class Structure extends r.impl.SimpleResource {
      * @param newSchedule The schedule specification
      * @returns An empty promise that resolves when the new schedule is saved
      */
-    updateSchedule(newSchedule) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corp = yield this.charAndCorp.corpID();
-            return this.agent.agent.request('put_corporations_corporation_id_structures_structure_id', {
-                path: { corporation_id: corp, structure_id: this.agent.id },
-                body: newSchedule
-            }, this.agent.ssoToken);
-        });
+    async updateSchedule(newSchedule) {
+        let corp = await this.charAndCorp.corpID();
+        return this.agent.agent.request('put_corporations_corporation_id_structures_structure_id', {
+            path: { corporation_id: corp, structure_id: this.agent.id },
+            body: newSchedule
+        }, this.agent.ssoToken);
     }
 }
 exports.Structure = Structure;
@@ -235,36 +208,32 @@ class CharAndCorpAgent {
             };
         }
     }
-    charID() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.charID_ === undefined) {
-                // Must get it from corporation
-                let corp = yield this.corpID();
-                return this.agent.request('get_corporations_corporation_id', { path: { corporation_id: corp } }).then(details => details.ceo_id);
-            }
-            else if (typeof this.charID_ === 'number') {
-                return Promise.resolve(this.charID_);
-            }
-            else {
-                return this.charID_();
-            }
-        });
+    async charID() {
+        if (this.charID_ === undefined) {
+            // Must get it from corporation
+            let corp = await this.corpID();
+            return this.agent.request('get_corporations_corporation_id', { path: { corporation_id: corp } }).then(details => details.ceo_id);
+        }
+        else if (typeof this.charID_ === 'number') {
+            return Promise.resolve(this.charID_);
+        }
+        else {
+            return this.charID_();
+        }
     }
-    corpID() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.corpID_ === undefined) {
-                // Must get it from the character
-                let char = yield this.charID();
-                return this.agent.request('get_characters_character_id', { path: { character_id: char } })
-                    .then(details => details.corporation_id);
-            }
-            else if (typeof this.corpID_ === 'number') {
-                return Promise.resolve(this.corpID_);
-            }
-            else {
-                return this.corpID_();
-            }
-        });
+    async corpID() {
+        if (this.corpID_ === undefined) {
+            // Must get it from the character
+            let char = await this.charID();
+            return this.agent.request('get_characters_character_id', { path: { character_id: char } })
+                .then(details => details.corporation_id);
+        }
+        else if (typeof this.corpID_ === 'number') {
+            return Promise.resolve(this.corpID_);
+        }
+        else {
+            return this.corpID_();
+        }
     }
 }
 class StructureMarket {
@@ -290,53 +259,27 @@ class StructureMarket {
     ordersFor(typeID) {
         return this.getOrdersFor(typeID, 'all');
     }
-    getOrdersFor(typeID, orderType) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let orders = [];
-            try {
-                for (var _a = __asyncValues(this.orders()), _b; _b = yield _a.next(), !_b.done;) {
-                    let o = yield _b.value;
-                    if (typeID === o.type_id && (orderType === 'all' || (orderType === 'buy'
-                        && o.is_buy_order) || (orderType === 'sell'
-                        && !o.is_buy_order))) {
-                        // Order passes type id and order type filters
-                        orders.push(o);
-                    }
-                }
+    async getOrdersFor(typeID, orderType) {
+        let orders = [];
+        for await (let o of this.orders()) {
+            if (typeID === o.type_id && (orderType === 'all' || (orderType === 'buy'
+                && o.is_buy_order) || (orderType === 'sell'
+                && !o.is_buy_order))) {
+                // Order passes type id and order type filters
+                orders.push(o);
             }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) yield _c.call(_a);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            return orders;
-            var e_1, _c;
-        });
+        }
+        return orders;
     }
-    types() {
-        return __asyncGenerator(this, arguments, function* types_1() {
-            let seen = new Set();
-            try {
-                for (var _a = __asyncValues(this.orders()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                    let o = yield __await(_b.value);
-                    let typeID = o.type_id;
-                    if (!seen.has(typeID)) {
-                        seen.add(typeID);
-                        yield typeID;
-                    } // otherwise skip it
-                }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-            var e_2, _c;
-        });
+    async *types() {
+        let seen = new Set();
+        for await (let o of this.orders()) {
+            let typeID = o.type_id;
+            if (!seen.has(typeID)) {
+                seen.add(typeID);
+                yield typeID;
+            } // otherwise skip it
+        }
     }
 }
 function getStructure(agent) {
@@ -345,10 +288,8 @@ function getStructure(agent) {
 function getCorpStructures(agent) {
     return r.impl.makePageBasedStreamer(page => getCorpStructuresPage(agent, page), 250);
 }
-function getCorpStructuresPage(agent, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID = yield agent.corpID();
-        return agent.agent.request('get_corporations_corporation_id_structures', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken).then(result => ({ result, maxPages: undefined }));
-    });
+async function getCorpStructuresPage(agent, page) {
+    let corpID = await agent.corpID();
+    return agent.agent.request('get_corporations_corporation_id_structures', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken).then(result => ({ result, maxPages: undefined }));
 }
 //# sourceMappingURL=structures.js.map

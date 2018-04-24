@@ -1,21 +1,4 @@
 "use strict";
-var __asyncValues = (this && this.__asyncIterator) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator];
-    return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const search_1 = require("../../internal/search");
 const names_1 = require("../../internal/names");
@@ -145,23 +128,10 @@ class IteratedStations extends r.impl.SimpleIteratedResource {
      *
      * @returns Taxes for all stations
      */
-    taxes() {
-        return __asyncGenerator(this, arguments, function* taxes_1() {
-            try {
-                for (var _a = __asyncValues(this.getPaginatedResource()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                    let station = yield __await(_b.value);
-                    yield [station[0], station[1].tax || 0];
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            var e_1, _c;
-        });
+    async *taxes() {
+        for await (let station of this.getPaginatedResource()) {
+            yield [station[0], station[1].tax || 0];
+        }
     }
     /**
      * @esi_route post_universe_names [station]

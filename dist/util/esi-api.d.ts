@@ -50,7 +50,7 @@ export declare class API {
     route(name: string): Route | null;
     static createDescription(blob: {
         description?: string;
-    } | string, {makeLowerCase: makeLowerCase, punctuate: punctuate, removeNewlines: removewNewlines}?: {
+    } | string, { makeLowerCase: makeLowerCase, punctuate: punctuate, removeNewlines: removewNewlines }?: {
         makeLowerCase?: boolean;
         punctuate?: boolean;
         removeNewlines?: boolean;

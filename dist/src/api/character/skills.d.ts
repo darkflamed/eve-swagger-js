@@ -25,5 +25,5 @@ export declare class Skills {
      * @returns The character's mental attribute distribution
      */
     attributes(): Promise<Responses['get_characters_character_id_attributes']>;
-    private getSkills();
+    private getSkills;
 }

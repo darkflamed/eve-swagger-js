@@ -1,29 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncIterator) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator];
-    return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../../internal/resource-api");
 /**
@@ -75,35 +50,31 @@ class WalletDivision extends r.impl.SimpleResource {
         }
         return this.transactions_();
     }
-    getJournal(fromID) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corpID;
-            if (typeof this.agent.id === 'number') {
-                corpID = this.agent.id;
-            }
-            else {
-                corpID = yield this.agent.id();
-            }
-            return this.agent.agent.request('get_corporations_corporation_id_wallets_division_journal', {
-                path: { corporation_id: corpID, division: this.id_ },
-                query: { from_id: fromID }
-            }, this.agent.ssoToken);
-        });
+    async getJournal(fromID) {
+        let corpID;
+        if (typeof this.agent.id === 'number') {
+            corpID = this.agent.id;
+        }
+        else {
+            corpID = await this.agent.id();
+        }
+        return this.agent.agent.request('get_corporations_corporation_id_wallets_division_journal', {
+            path: { corporation_id: corpID, division: this.id_ },
+            query: { from_id: fromID }
+        }, this.agent.ssoToken);
     }
-    getTransaction(fromID) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let corpID;
-            if (typeof this.agent.id === 'number') {
-                corpID = this.agent.id;
-            }
-            else {
-                corpID = yield this.agent.id();
-            }
-            return this.agent.agent.request('get_corporations_corporation_id_wallets_division_transactions', {
-                path: { corporation_id: corpID, division: this.id_ },
-                query: { from_id: fromID }
-            }, this.agent.ssoToken);
-        });
+    async getTransaction(fromID) {
+        let corpID;
+        if (typeof this.agent.id === 'number') {
+            corpID = this.agent.id;
+        }
+        else {
+            corpID = await this.agent.id();
+        }
+        return this.agent.agent.request('get_corporations_corporation_id_wallets_division_transactions', {
+            path: { corporation_id: corpID, division: this.id_ },
+            query: { from_id: fromID }
+        }, this.agent.ssoToken);
     }
 }
 exports.WalletDivision = WalletDivision;
@@ -163,37 +134,22 @@ class IteratedWalletDivisions extends r.impl.SimpleIteratedResource {
      *
      * @returns The names of all wallet divisions of the corporation
      */
-    names() {
-        return __asyncGenerator(this, arguments, function* names_1() {
-            try {
-                for (var _a = __asyncValues(this.getPaginatedResource()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                    let [id, name] = yield __await(_b.value);
-                    // Restructure the actual name object to be a tuple
-                    yield [id, name.name || ''];
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            var e_1, _c;
-        });
+    async *names() {
+        for await (let [id, name] of this.getPaginatedResource()) {
+            // Restructure the actual name object to be a tuple
+            yield [id, name.name || ''];
+        }
     }
     /**
      * @esi_route get_corporations_corporation_id_wallets
      *
      * @returns The balances in all of the wallet divisions of the corporation
      */
-    balance() {
-        return __asyncGenerator(this, arguments, function* balance_1() {
-            let wallet = yield __await(getWallets(this.agent));
-            for (let div of wallet) {
-                yield [div.division, div.balance];
-            }
-        });
+    async *balance() {
+        let wallet = await getWallets(this.agent);
+        for (let div of wallet) {
+            yield [div.division, div.balance];
+        }
     }
 }
 exports.IteratedWalletDivisions = IteratedWalletDivisions;
@@ -235,28 +191,24 @@ class Wallets {
     }
 }
 exports.Wallets = Wallets;
-function getDivisions(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_divisions', { path: { corporation_id: corpID } }, agent.ssoToken);
-    });
+async function getDivisions(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_divisions', { path: { corporation_id: corpID } }, agent.ssoToken);
 }
-function getWallets(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_wallets', { path: { corporation_id: corpID } }, agent.ssoToken);
-    });
+async function getWallets(agent) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_wallets', { path: { corporation_id: corpID } }, agent.ssoToken);
 }
 //# sourceMappingURL=wallets.js.map

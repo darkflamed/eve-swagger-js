@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const batch_1 = require("../../internal/batch");
 const r = require("../../internal/resource-api");
@@ -176,64 +168,54 @@ function getAssets(agent) {
     return r.impl.makePageBasedStreamer(page => getAssetsPage(agent, page)
         .then(result => ({ result, maxPage: undefined })), 5000);
 }
-function getBlueprints(agent, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_blueprints', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
-    });
+async function getBlueprints(agent, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_blueprints', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
 }
-function getContainerLogs(agent, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_containers_logs', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
-    });
+async function getContainerLogs(agent, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_containers_logs', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
 }
-function getAssetsPage(agent, page) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('get_corporations_corporation_id_assets', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
-    });
+async function getAssetsPage(agent, page) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('get_corporations_corporation_id_assets', { path: { corporation_id: corpID }, query: { page: page } }, agent.ssoToken);
 }
-function getAssetNames(agent, ids) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('post_corporations_corporation_id_assets_names', { path: { corporation_id: corpID }, body: ids }, agent.ssoToken);
-    });
+async function getAssetNames(agent, ids) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('post_corporations_corporation_id_assets_names', { path: { corporation_id: corpID }, body: ids }, agent.ssoToken);
 }
-function getAssetLocations(agent, ids) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let corpID;
-        if (typeof agent.id === 'number') {
-            corpID = agent.id;
-        }
-        else {
-            corpID = yield agent.id();
-        }
-        return agent.agent.request('post_corporations_corporation_id_assets_locations', { path: { corporation_id: corpID }, body: ids }, agent.ssoToken);
-    });
+async function getAssetLocations(agent, ids) {
+    let corpID;
+    if (typeof agent.id === 'number') {
+        corpID = agent.id;
+    }
+    else {
+        corpID = await agent.id();
+    }
+    return agent.agent.request('post_corporations_corporation_id_assets_locations', { path: { corporation_id: corpID }, body: ids }, agent.ssoToken);
 }
 //# sourceMappingURL=assets.js.map

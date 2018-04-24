@@ -26,7 +26,7 @@ export interface StarbaseAPI {
  */
 export declare class Starbase extends r.impl.SimpleResource implements r.Async<StarbaseAPI> {
     private agent;
-    private systemID;
+    private systemID?;
     private starbases_?;
     constructor(agent: SSOAgent<number | r.impl.IDProvider>, id: number, systemID?: number | undefined);
     /**

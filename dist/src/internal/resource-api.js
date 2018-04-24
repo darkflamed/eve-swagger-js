@@ -1,34 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncIterator) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator];
-    return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-};
-var __asyncDelegator = (this && this.__asyncDelegator) || function (o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { if (o[n]) i[n] = function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; }; }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // Force loading of this library to make sure the types are available at runtime
 const error_1 = require("../error");
@@ -114,26 +84,13 @@ var impl;
      * @param resolver The function mapping from element to id
      * @returns The matching element, or throws a not-found ESIError
      */
-    function filterIterated(resources, id, resolver) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                for (var resources_1 = __asyncValues(resources), resources_1_1; resources_1_1 = yield resources_1.next(), !resources_1_1.done;) {
-                    let e = yield resources_1_1.value;
-                    if (resolver(e) === id) {
-                        return e;
-                    }
-                }
+    async function filterIterated(resources, id, resolver) {
+        for await (let e of resources) {
+            if (resolver(e) === id) {
+                return e;
             }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (resources_1_1 && !resources_1_1.done && (_a = resources_1.return)) yield _a.call(resources_1);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            throw new error_1.ESIError("esi:NotFoundError" /* NOT_FOUND_ERROR */, 'Could not find value for id: %d', id);
-            var e_1, _a;
-        });
+        }
+        throw new error_1.ESIError("esi:NotFoundError" /* NOT_FOUND_ERROR */, 'Could not find value for id: %d', id);
     }
     impl.filterIterated = filterIterated;
     /**
@@ -147,44 +104,31 @@ var impl;
      * @param resolver The function mapping from element to id
      * @returns A map from id to matching element, or throws a not-found ESIError
      */
-    function filterIteratedToMap(resources, ids, resolver) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let map = new Map();
-            try {
-                // Unlike filterArrayToMap, iterate over the resources first since it can
-                // only be iterated through once - must check presence of all ids afterwards
-                for (var resources_2 = __asyncValues(resources), resources_2_1; resources_2_1 = yield resources_2.next(), !resources_2_1.done;) {
-                    let e = yield resources_2_1.value;
-                    let eID = resolver(e);
-                    if (ids.indexOf(eID) >= 0) {
-                        // One of the requested ones
-                        map.set(eID, e);
-                    }
-                    // Early exit if all the ids have been found
-                    if (map.size === ids.length) {
-                        break;
-                    }
+    async function filterIteratedToMap(resources, ids, resolver) {
+        let map = new Map();
+        // Unlike filterArrayToMap, iterate over the resources first since it can
+        // only be iterated through once - must check presence of all ids afterwards
+        for await (let e of resources) {
+            let eID = resolver(e);
+            if (ids.indexOf(eID) >= 0) {
+                // One of the requested ones
+                map.set(eID, e);
+            }
+            // Early exit if all the ids have been found
+            if (map.size === ids.length) {
+                break;
+            }
+        }
+        // Ensure all ids are accounted for
+        if (map.size !== ids.length) {
+            // At least one is missing, throw exception with first missing id
+            for (let id of ids) {
+                if (!map.has(id)) {
+                    throw new error_1.ESIError("esi:NotFoundError" /* NOT_FOUND_ERROR */, 'Could not find value for id: %d', id);
                 }
             }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (resources_2_1 && !resources_2_1.done && (_a = resources_2.return)) yield _a.call(resources_2);
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-            // Ensure all ids are accounted for
-            if (map.size !== ids.length) {
-                // At least one is missing, throw exception with first missing id
-                for (let id of ids) {
-                    if (!map.has(id)) {
-                        throw new error_1.ESIError("esi:NotFoundError" /* NOT_FOUND_ERROR */, 'Could not find value for id: %d', id);
-                    }
-                }
-            }
-            return map;
-            var e_2, _a;
-        });
+        }
+        return map;
     }
     impl.filterIteratedToMap = filterIteratedToMap;
     /**
@@ -287,24 +231,11 @@ var impl;
          * @param loader Function to get individual elements by id
          * @returns Asynchronous iterator over the resolved elements
          */
-        getResource(loader) {
-            return __asyncGenerator(this, arguments, function* getResource_1() {
-                try {
-                    for (var _a = __asyncValues(this.streamer()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                        let value = yield __await(_b.value);
-                        let id = this.idResolver(value);
-                        yield loader(id).then(e => [id, e]);
-                    }
-                }
-                catch (e_3_1) { e_3 = { error: e_3_1 }; }
-                finally {
-                    try {
-                        if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                    }
-                    finally { if (e_3) throw e_3.error; }
-                }
-                var e_3, _c;
-            });
+        async *getResource(loader) {
+            for await (let value of this.streamer()) {
+                let id = this.idResolver(value);
+                yield loader(id).then(e => [id, e]);
+            }
         }
         /**
          * A helper function to transform the paginated resource of type `T` into
@@ -313,42 +244,16 @@ var impl;
          *
          * @returns An iterator over the paginated reosurce
          */
-        getPaginatedResource() {
-            return __asyncGenerator(this, arguments, function* getPaginatedResource_1() {
-                try {
-                    for (var _a = __asyncValues(this.streamer()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                        let value = yield __await(_b.value);
-                        let id = this.idResolver(value);
-                        yield [id, value];
-                    }
-                }
-                catch (e_4_1) { e_4 = { error: e_4_1 }; }
-                finally {
-                    try {
-                        if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                    }
-                    finally { if (e_4) throw e_4.error; }
-                }
-                var e_4, _c;
-            });
+        async *getPaginatedResource() {
+            for await (let value of this.streamer()) {
+                let id = this.idResolver(value);
+                yield [id, value];
+            }
         }
-        ids() {
-            return __asyncGenerator(this, arguments, function* ids_1() {
-                try {
-                    for (var _a = __asyncValues(this.streamer()), _b; _b = yield __await(_a.next()), !_b.done;) {
-                        let value = yield __await(_b.value);
-                        yield this.idResolver(value);
-                    }
-                }
-                catch (e_5_1) { e_5 = { error: e_5_1 }; }
-                finally {
-                    try {
-                        if (_b && !_b.done && (_c = _a.return)) yield __await(_c.call(_a));
-                    }
-                    finally { if (e_5) throw e_5.error; }
-                }
-                var e_5, _c;
-            });
+        async *ids() {
+            for await (let value of this.streamer()) {
+                yield this.idResolver(value);
+            }
         }
     }
     impl.SimpleIteratedResource = SimpleIteratedResource;
@@ -396,65 +301,59 @@ var impl;
         return () => getArrayIterator(arrayLoader);
     }
     impl.makeArrayStreamer = makeArrayStreamer;
-    function getPageBasedIterator(pageLoader, maxPageSize) {
-        return __asyncGenerator(this, arguments, function* getPageBasedIterator_1() {
-            let page = 1;
-            let maxPages = undefined;
-            while (maxPages === undefined || page < maxPages) {
-                let pageResults = yield __await(pageLoader(page));
-                let elements;
-                // Process the extracted maximum number of pages
-                if (Array.isArray(pageResults)) {
-                    // No maximum provided so use as elements directly
-                    elements = pageResults;
-                }
-                else {
-                    // Array and max size specification
-                    elements = pageResults.result;
-                    if (pageResults.maxPages !== undefined && maxPages === undefined) {
-                        maxPages = pageResults.maxPages;
-                    }
-                }
-                // Early exit for empty page
-                if (elements.length === 0) {
-                    break;
-                }
-                // Yield the elements
-                yield __await(yield* __asyncDelegator(__asyncValues(elements)));
-                // Determine stopping criteria in the event that max pages is known
-                if (maxPageSize !== undefined && elements.length < maxPageSize) {
-                    break;
-                }
-                // Move on to next page
-                page++;
+    async function* getPageBasedIterator(pageLoader, maxPageSize) {
+        let page = 1;
+        let maxPages = undefined;
+        while (maxPages === undefined || page < maxPages) {
+            let pageResults = await pageLoader(page);
+            let elements;
+            // Process the extracted maximum number of pages
+            if (Array.isArray(pageResults)) {
+                // No maximum provided so use as elements directly
+                elements = pageResults;
             }
-        });
-    }
-    function getMaxIDIterator(pageLoader, idResolver, maxPageSize) {
-        return __asyncGenerator(this, arguments, function* getMaxIDIterator_1() {
-            let maxID = undefined;
-            while (true) {
-                let pageResults = yield __await(pageLoader(maxID));
-                // Early exit for an empty page
-                if (pageResults.length == 0) {
-                    break;
+            else {
+                // Array and max size specification
+                elements = pageResults.result;
+                if (pageResults.maxPages !== undefined && maxPages === undefined) {
+                    maxPages = pageResults.maxPages;
                 }
-                // Yield all the elements
-                yield __await(yield* __asyncDelegator(__asyncValues(pageResults)));
-                // Stopping criteria if the max page size is known
-                if (maxPageSize !== undefined && pageResults.length < maxPageSize) {
-                    break;
-                }
-                // Advance to next id constraint
-                maxID = idResolver(pageResults[pageResults.length - 1]);
             }
-        });
+            // Early exit for empty page
+            if (elements.length === 0) {
+                break;
+            }
+            // Yield the elements
+            yield* elements;
+            // Determine stopping criteria in the event that max pages is known
+            if (maxPageSize !== undefined && elements.length < maxPageSize) {
+                break;
+            }
+            // Move on to next page
+            page++;
+        }
     }
-    function getArrayIterator(arrayLoader) {
-        return __asyncGenerator(this, arguments, function* getArrayIterator_1() {
-            let array = yield __await(arrayLoader());
-            yield __await(yield* __asyncDelegator(__asyncValues(array)));
-        });
+    async function* getMaxIDIterator(pageLoader, idResolver, maxPageSize) {
+        let maxID = undefined;
+        while (true) {
+            let pageResults = await pageLoader(maxID);
+            // Early exit for an empty page
+            if (pageResults.length == 0) {
+                break;
+            }
+            // Yield all the elements
+            yield* pageResults;
+            // Stopping criteria if the max page size is known
+            if (maxPageSize !== undefined && pageResults.length < maxPageSize) {
+                break;
+            }
+            // Advance to next id constraint
+            maxID = idResolver(pageResults[pageResults.length - 1]);
+        }
+    }
+    async function* getArrayIterator(arrayLoader) {
+        let array = await arrayLoader();
+        yield* array;
     }
 })(impl = exports.impl || (exports.impl = {}));
 //# sourceMappingURL=resource-api.js.map

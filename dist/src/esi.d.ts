@@ -174,7 +174,7 @@ export declare namespace esi {
                 SUB_SYSTEM_SLOT_6 = "SubSystemSlot6",
                 SUB_SYSTEM_SLOT_7 = "SubSystemSlot7",
                 UNLOCKED = "Unlocked",
-                WARDROBE = "Wardrobe",
+                WARDROBE = "Wardrobe"
             }
         }
         namespace calendar {
@@ -212,7 +212,7 @@ export declare namespace esi {
                 CHARACTER = "character",
                 CORPORATION = "corporation",
                 EVE_SERVER = "eve_server",
-                FACTION = "faction",
+                FACTION = "faction"
             }
             /**
              * This type is a parameter for the route, [`PUT /v3/characters/{character_id}/calendar/{event_id}/`](https://esi.tech.ccp.is/#!/Calendar/put_characters_character_id_calendar_event_id).
@@ -224,7 +224,7 @@ export declare namespace esi {
                 ACCEPTED = "accepted",
                 DECLINED = "declined",
                 NOT_RESPONDED = "not_responded",
-                TENTATIVE = "tentative",
+                TENTATIVE = "tentative"
             }
         }
         namespace channel {
@@ -335,7 +335,7 @@ export declare namespace esi {
                 C_FF6600 = "#ff6600",
                 C_FFFF01 = "#ffff01",
                 C_FFFFCD = "#ffffcd",
-                C_FFFFFF = "#ffffff",
+                C_FFFFFF = "#ffffff"
             }
             interface Label {
                 color?: esi.character.mail.Color;
@@ -458,7 +458,7 @@ export declare namespace esi {
                 ALLIANCE = "alliance",
                 CHARACTER = "character",
                 CORPORATION = "corporation",
-                MAILING_LIST = "mailing_list",
+                MAILING_LIST = "mailing_list"
             }
         }
         namespace notification {
@@ -492,7 +492,7 @@ export declare namespace esi {
                 CHARACTER = "character",
                 CORPORATION = "corporation",
                 FACTION = "faction",
-                OTHER = "other",
+                OTHER = "other"
             }
             const enum Type {
                 ACCEPTED_ALLY = "AcceptedAlly",
@@ -670,7 +670,7 @@ export declare namespace esi {
                 TUTORIAL_MSG = "TutorialMsg",
                 WAR_ALLY_OFFER_DECLINED_MSG = "WarAllyOfferDeclinedMsg",
                 WAR_SURRENDER_DECLINED_MSG = "WarSurrenderDeclinedMsg",
-                WAR_SURRENDER_OFFER_MSG = "WarSurrenderOfferMsg",
+                WAR_SURRENDER_OFFER_MSG = "WarSurrenderOfferMsg"
             }
         }
         namespace planetaryinteraction {
@@ -737,7 +737,7 @@ export declare namespace esi {
                 OCEANIC = "oceanic",
                 PLASMA = "plasma",
                 STORM = "storm",
-                TEMPERATE = "temperate",
+                TEMPERATE = "temperate"
             }
             interface Route {
                 content_type_id: number;
@@ -1194,7 +1194,7 @@ export declare namespace esi {
             SOLARSYSTEM = "solarsystem",
             STATION = "station",
             STRUCTURE = "structure",
-            WORMHOLE = "wormhole",
+            WORMHOLE = "wormhole"
         }
         /**
          * This is the response type for the route, [`GET /v1/characters/{character_id}/ship/`](https://esi.tech.ccp.is/#!/Location/get_characters_character_id_ship).
@@ -1275,7 +1275,7 @@ export declare namespace esi {
             ALLIANCE = "alliance",
             CORPORATION = "corporation",
             PERSONAL = "personal",
-            PUBLIC = "public",
+            PUBLIC = "public"
         }
         interface Bid {
             /**
@@ -1409,7 +1409,7 @@ export declare namespace esi {
             IN_PROGRESS = "in_progress",
             OUTSTANDING = "outstanding",
             REJECTED = "rejected",
-            REVERSED = "reversed",
+            REVERSED = "reversed"
         }
         /**
          * Type of the contract.
@@ -1419,7 +1419,7 @@ export declare namespace esi {
             COURIER = "courier",
             ITEM_EXCHANGE = "item_exchange",
             LOAN = "loan",
-            UNKNOWN = "unknown",
+            UNKNOWN = "unknown"
         }
     }
     namespace corporation {
@@ -1434,7 +1434,7 @@ export declare namespace esi {
                 REPACKAGE = "repackage",
                 SET_NAME = "set_name",
                 SET_PASSWORD = "set_password",
-                UNLOCK = "unlock",
+                UNLOCK = "unlock"
             }
             /**
              * This is the response type for the route, [`GET /v1/corporations/{corporation_id}/assets/`](https://esi.tech.ccp.is/#!/Assets/get_corporations_corporation_id_assets).
@@ -1635,7 +1635,7 @@ export declare namespace esi {
                 SUBSYSTEM_BAY = "SubsystemBay",
                 UNLOCKED = "Unlocked",
                 WALLET = "Wallet",
-                WARDROBE = "Wardrobe",
+                WARDROBE = "Wardrobe"
             }
         }
         namespace industry {
@@ -1823,7 +1823,7 @@ export declare namespace esi {
                 ALLIANCE_MEMBER = "alliance_member",
                 CONFIG_STARBASE_EQUIPMENT_ROLE = "config_starbase_equipment_role",
                 CORPORATION_MEMBER = "corporation_member",
-                STARBASE_FUEL_TECHNICIAN_ROLE = "starbase_fuel_technician_role",
+                STARBASE_FUEL_TECHNICIAN_ROLE = "starbase_fuel_technician_role"
             }
             interface Service {
                 name: string;
@@ -1837,7 +1837,7 @@ export declare namespace esi {
                 EXCELLENT = "excellent",
                 GOOD = "good",
                 NEUTRAL = "neutral",
-                TERRIBLE = "terrible",
+                TERRIBLE = "terrible"
             }
             /**
              * This is the response type for the route, [`GET /v1/corporations/{corporation_id}/starbases/{starbase_id}/`](https://esi.tech.ccp.is/#!/Corporation/get_corporations_corporation_id_starbases_starbase_id).
@@ -1927,7 +1927,7 @@ export declare namespace esi {
                 ONLINE = "online",
                 ONLINING = "onlining",
                 REINFORCED = "reinforced",
-                UNANCHORING = "unanchoring",
+                UNANCHORING = "unanchoring"
             }
             /**
              * This is the response type for the route, [`GET /v1/corporations/{corporation_id}/structures/`](https://esi.tech.ccp.is/#!/Corporation/get_corporations_corporation_id_structures).
@@ -2102,7 +2102,7 @@ export declare namespace esi {
             AMARR = "Amarr",
             CALDARI = "Caldari",
             GALLENTE = "Gallente",
-            MINMATAR = "Minmatar",
+            MINMATAR = "Minmatar"
         }
         /**
          * This is the response type for the route, [`GET /v1/corporations/{corporation_id}/icons/`](https://esi.tech.ccp.is/#!/Corporation/get_corporations_corporation_id_icons).
@@ -2286,7 +2286,7 @@ export declare namespace esi {
             ROLES = "roles",
             ROLES_AT_BASE = "roles_at_base",
             ROLES_AT_HQ = "roles_at_hq",
-            ROLES_AT_OTHER = "roles_at_other",
+            ROLES_AT_OTHER = "roles_at_other"
         }
         /**
          * This is the response type for the route, [`GET /v1/corporations/{corporation_id}/shareholders/`](https://esi.tech.ccp.is/#!/Corporation/get_corporations_corporation_id_shareholders).
@@ -2727,7 +2727,7 @@ export declare namespace esi {
             FLEET_COMMANDER = "fleet_commander",
             SQUAD_COMMANDER = "squad_commander",
             SQUAD_MEMBER = "squad_member",
-            WING_COMMANDER = "wing_commander",
+            WING_COMMANDER = "wing_commander"
         }
         interface Squad {
             id: number;
@@ -2771,7 +2771,7 @@ export declare namespace esi {
             RESEARCHING_MATERIAL_EFFICIENCY = "researching_material_efficiency",
             RESEARCHING_TECHNOLOGY = "researching_technology",
             RESEARCHING_TIME_EFFICIENCY = "researching_time_efficiency",
-            REVERSE_ENGINEERING = "reverse_engineering",
+            REVERSE_ENGINEERING = "reverse_engineering"
         }
         interface CostIndex {
             activity: esi.industry.Activity;
@@ -2812,7 +2812,7 @@ export declare namespace esi {
             DELIVERED = "delivered",
             PAUSED = "paused",
             READY = "ready",
-            REVERTED = "reverted",
+            REVERTED = "reverted"
         }
         /**
          * This is the response type for the route, [`GET /v1/industry/systems/`](https://esi.tech.ccp.is/#!/Industry/get_industry_systems).
@@ -2986,7 +2986,7 @@ export declare namespace esi {
             V_30 = "30",
             V_4 = "4",
             V_40 = "40",
-            V_5 = "5",
+            V_5 = "5"
         }
         /**
          * Current order state.
@@ -2997,7 +2997,7 @@ export declare namespace esi {
             CLOSED = "closed",
             EXPIRED = "expired",
             OPEN = "open",
-            PENDING = "pending",
+            PENDING = "pending"
         }
         /**
          * This is the response type for the route, [`GET /v1/markets/prices/`](https://esi.tech.ccp.is/#!/Market/get_markets_prices).
@@ -3058,7 +3058,7 @@ export declare namespace esi {
             IHUB_DEFENSE = "ihub_defense",
             STATION_DEFENSE = "station_defense",
             STATION_FREEPORT = "station_freeport",
-            TCU_DEFENSE = "tcu_defense",
+            TCU_DEFENSE = "tcu_defense"
         }
         /**
          * This is the response type for the route, [`GET /v1/sovereignty/map/`](https://esi.tech.ccp.is/#!/Sovereignty/get_sovereignty_map).
@@ -3228,7 +3228,7 @@ export declare namespace esi {
             INVENTORY_TYPE = "inventory_type",
             REGION = "region",
             SOLAR_SYSTEM = "solar_system",
-            STATION = "station",
+            STATION = "station"
         }
         /**
          * This is the response type for the route, [`GET /v1/universe/planets/{planet_id}/`](https://esi.tech.ccp.is/#!/Universe/get_universe_planets_planet_id).
@@ -3305,7 +3305,7 @@ export declare namespace esi {
             SECURITY_OFFICES = "security-offices",
             STOCK_EXCHANGE = "stock-exchange",
             STORAGE = "storage",
-            SURGERY = "surgery",
+            SURGERY = "surgery"
         }
         const enum SpectralClass {
             A0 = "A0",
@@ -3396,7 +3396,7 @@ export declare namespace esi {
             M6V = "M6 V",
             M7V = "M7 V",
             M8V = "M8 V",
-            M9V = "M9 V",
+            M9V = "M9 V"
         }
         /**
          * This is the response type for the route, [`GET /v1/universe/stars/{star_id}/`](https://esi.tech.ccp.is/#!/Universe/get_universe_stars_star_id).
@@ -3587,7 +3587,7 @@ export declare namespace esi {
         ALLIANCE = "alliance",
         CHARACTER = "character",
         CORPORATION = "corporation",
-        FACTION = "faction",
+        FACTION = "faction"
     }
     /**
      * This is the response type for the route, [`GET /v1/incursions/`](https://esi.tech.ccp.is/#!/Incursions/get_incursions).
@@ -3654,7 +3654,7 @@ export declare namespace esi {
         FR = "fr",
         JA = "ja",
         RU = "ru",
-        ZH = "zh",
+        ZH = "zh"
     }
     /**
      * This is the response type for the route, [`GET /v1/opportunities/groups/{group_id}/`](https://esi.tech.ccp.is/#!/Opportunities/get_opportunities_groups_group_id).
@@ -3735,7 +3735,7 @@ export declare namespace esi {
         STATION_MANAGER = "Station_Manager",
         TERRESTRIAL_COMBAT_OFFICER = "Terrestrial_Combat_Officer",
         TERRESTRIAL_LOGISTICS_OFFICER = "Terrestrial_Logistics_Officer",
-        TRADER = "Trader",
+        TRADER = "Trader"
     }
     /**
      * This is the response type for the route, [`GET /v1/search/`](https://esi.tech.ccp.is/#!/Search/get_search).
@@ -3764,7 +3764,7 @@ export declare namespace esi {
         REGION = "region",
         SOLARSYSTEM = "solarsystem",
         STATION = "station",
-        WORMHOLE = "wormhole",
+        WORMHOLE = "wormhole"
     }
     interface Standing {
         from_id: number;
@@ -3907,7 +3907,7 @@ export declare namespace esi {
         UPKEEP_ADJUSTMENT_FEE = "upkeep_adjustment_fee",
         WAR_ALLY_CONTRACT = "war_ally_contract",
         WAR_FEE = "war_fee",
-        WAR_FEE_SURRENDER = "war_fee_surrender",
+        WAR_FEE_SURRENDER = "war_fee_surrender"
     }
     interface WalletJournal {
         /**

@@ -186,12 +186,12 @@ export declare class ESIAgent {
      * appropriate route's response type.
      */
     request<ID extends keyof Responses & keyof Parameters>(route: ID, parameters: Parameters[ID], accessToken?: string): Promise<Responses[ID]>;
-    private buildURL(urlTemplate, pathParams);
-    private buildQueryParams(params, accessToken);
-    private buildHeaders(accessToken);
-    private schedule(request);
-    private scheduleAndCache(request, accessToken);
-    private processRequest(request, response, cacheKey?, accessToken?);
-    private updateErrorRateLimiter(response);
-    private _request(request);
+    private buildURL;
+    private buildQueryParams;
+    private buildHeaders;
+    private schedule;
+    private scheduleAndCache;
+    private processRequest;
+    private updateErrorRateLimiter;
+    private _request;
 }

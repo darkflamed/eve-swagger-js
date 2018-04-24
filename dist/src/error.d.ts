@@ -1,4 +1,3 @@
-/// <reference types="verror" />
 import { VError, Info } from 'verror';
 export declare const enum ErrorName {
     CLIENT_ERROR = "esi:ClientError",
@@ -6,7 +5,7 @@ export declare const enum ErrorName {
     NOT_FOUND_ERROR = "esi:NotFoundError",
     INTERNAL_SERVER_ERROR = "esi:InternalServerError",
     IO_ERROR = "esi:IOError",
-    GENERIC_ERROR = "esi:Error",
+    GENERIC_ERROR = "esi:Error"
 }
 export declare class ESIError extends VError {
     readonly kind: ErrorName;

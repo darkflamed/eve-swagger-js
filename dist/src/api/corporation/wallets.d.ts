@@ -54,8 +54,8 @@ export declare class WalletDivision extends r.impl.SimpleResource implements r.A
      * @returns The transactions for the wallet division
      */
     transactions(): AsyncIterableIterator<esi.corporation.WalletTransaction>;
-    private getJournal(fromID?);
-    private getTransaction(fromID?);
+    private getJournal;
+    private getTransaction;
 }
 /**
  * An api adapter for accessing various details of multiple wallet division ids,

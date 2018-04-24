@@ -1,4 +1,4 @@
-declare global  {
+declare global {
     interface SymbolConstructor {
         readonly asyncIterator: symbol;
     }
@@ -16,4 +16,3 @@ declare global  {
 }
 declare const asyncSymbol: symbol;
 export = asyncSymbol;
-export {};

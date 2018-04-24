@@ -23,6 +23,6 @@ export declare class Bookmarks {
      * @returns An iterator over the folders for bookmark management
      */
     folders(): AsyncIterableIterator<esi.corporation.BookmarksFolder>;
-    private getDetailsPage(page);
-    private getFoldersPage(page);
+    private getDetailsPage;
+    private getFoldersPage;
 }

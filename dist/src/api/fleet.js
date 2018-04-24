@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const r = require("../internal/resource-api");
 const characters_1 = require("./character/characters");
@@ -599,105 +591,77 @@ function makeMembers(agent) {
 function getRole(agent) {
     return agent.agent.request('get_characters_character_id_fleet', { path: { character_id: agent.id } }, agent.ssoToken);
 }
-function getFleet(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('get_fleets_fleet_id', { path: { fleet_id: fleetID } }, agent.ssoToken);
-    });
+async function getFleet(agent) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('get_fleets_fleet_id', { path: { fleet_id: fleetID } }, agent.ssoToken);
 }
-function updateFleet(agent, update) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('put_fleets_fleet_id', { path: { fleet_id: fleetID }, body: update }, agent.ssoToken);
-    });
+async function updateFleet(agent, update) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('put_fleets_fleet_id', { path: { fleet_id: fleetID }, body: update }, agent.ssoToken);
 }
-function getMembers(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('get_fleets_fleet_id_members', { path: { fleet_id: fleetID } }, agent.ssoToken);
-    });
+async function getMembers(agent) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('get_fleets_fleet_id_members', { path: { fleet_id: fleetID } }, agent.ssoToken);
 }
-function kickMember(agent, member) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('delete_fleets_fleet_id_members_member_id', { path: { fleet_id: fleetID, member_id: member } }, agent.ssoToken);
-    });
+async function kickMember(agent, member) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('delete_fleets_fleet_id_members_member_id', { path: { fleet_id: fleetID, member_id: member } }, agent.ssoToken);
 }
-function moveMember(agent, member, move) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('put_fleets_fleet_id_members_member_id', { path: { fleet_id: fleetID, member_id: member }, body: move }, agent.ssoToken);
-    });
+async function moveMember(agent, member, move) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('put_fleets_fleet_id_members_member_id', { path: { fleet_id: fleetID, member_id: member }, body: move }, agent.ssoToken);
 }
-function inviteMember(agent, invitation) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('post_fleets_fleet_id_members', { path: { fleet_id: fleetID }, body: invitation }, agent.ssoToken);
-    });
+async function inviteMember(agent, invitation) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('post_fleets_fleet_id_members', { path: { fleet_id: fleetID }, body: invitation }, agent.ssoToken);
 }
-function addWing(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('post_fleets_fleet_id_wings', { path: { fleet_id: fleetID } }, agent.ssoToken);
-    });
+async function addWing(agent) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('post_fleets_fleet_id_wings', { path: { fleet_id: fleetID } }, agent.ssoToken);
 }
-function getWings(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('get_fleets_fleet_id_wings', { path: { fleet_id: fleetID } }, agent.ssoToken);
-    });
+async function getWings(agent) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('get_fleets_fleet_id_wings', { path: { fleet_id: fleetID } }, agent.ssoToken);
 }
-function updateWing(agent, wing, update) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('put_fleets_fleet_id_wings_wing_id', { path: { fleet_id: fleetID, wing_id: wing }, body: update }, agent.ssoToken);
-    });
+async function updateWing(agent, wing, update) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('put_fleets_fleet_id_wings_wing_id', { path: { fleet_id: fleetID, wing_id: wing }, body: update }, agent.ssoToken);
 }
-function deleteWing(agent, wing) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('delete_fleets_fleet_id_wings_wing_id', { path: { fleet_id: fleetID, wing_id: wing } }, agent.ssoToken);
-    });
+async function deleteWing(agent, wing) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('delete_fleets_fleet_id_wings_wing_id', { path: { fleet_id: fleetID, wing_id: wing } }, agent.ssoToken);
 }
-function getSquads(agent) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let wings = yield getWings(agent);
-        let squads = [];
-        for (let w of wings) {
-            squads.push(...w.squads);
-        }
-        return squads;
-    });
+async function getSquads(agent) {
+    let wings = await getWings(agent);
+    let squads = [];
+    for (let w of wings) {
+        squads.push(...w.squads);
+    }
+    return squads;
 }
-function addSquad(agent, wing) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('post_fleets_fleet_id_wings_wing_id_squads', { path: { fleet_id: fleetID, wing_id: wing } }, agent.ssoToken);
-    });
+async function addSquad(agent, wing) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('post_fleets_fleet_id_wings_wing_id_squads', { path: { fleet_id: fleetID, wing_id: wing } }, agent.ssoToken);
 }
-function updateSquad(agent, squad, update) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('put_fleets_fleet_id_squads_squad_id', { path: { fleet_id: fleetID, squad_id: squad }, body: update }, agent.ssoToken);
-    });
+async function updateSquad(agent, squad, update) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('put_fleets_fleet_id_squads_squad_id', { path: { fleet_id: fleetID, squad_id: squad }, body: update }, agent.ssoToken);
 }
-function deleteSquad(agent, squad) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let fleetID = typeof agent.id === 'number' ? agent.id
-            : yield agent.id();
-        return agent.agent.request('delete_fleets_fleet_id_squads_squad_id', { path: { fleet_id: fleetID, squad_id: squad } }, agent.ssoToken);
-    });
+async function deleteSquad(agent, squad) {
+    let fleetID = typeof agent.id === 'number' ? agent.id
+        : await agent.id();
+    return agent.agent.request('delete_fleets_fleet_id_squads_squad_id', { path: { fleet_id: fleetID, squad_id: squad } }, agent.ssoToken);
 }
 //# sourceMappingURL=fleet.js.map

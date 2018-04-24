@@ -86,7 +86,7 @@ export declare class SolarSystem extends r.impl.SimpleResource implements r.Asyn
      * @param connections Optional list of solar systems to pass through
      */
     insecureRoute(to: number, avoid?: number[], connections?: number[]): Promise<Responses['get_route_origin_destination']>;
-    private getRoute(type, to, avoid?, connections?);
+    private getRoute;
     /**
      * @returns Information about the solar system
      */
