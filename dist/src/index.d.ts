@@ -27,7 +27,6 @@ import { Killmail } from './api/killmail';
 import { Sovereignty } from './api/sovereignty';
 import { Wars } from './api/wars';
 import { Characters } from './api/character/characters';
-import { Structures } from './api/universe/structures';
 export { esi };
 export * from './error';
 /**
@@ -93,7 +92,6 @@ export interface API {
      * on the API's initialization options.
      */
     moons: Moons;
-    structures: Structures;
     /**
      * An instance of Opportunities using a shared ESIAgent configured based
      * on the API's initialization options.

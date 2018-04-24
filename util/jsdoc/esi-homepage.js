@@ -3,8 +3,8 @@ const fs = require('fs');
 const markdown = require('jsdoc/util/markdown');
 let env = require('jsdoc/env');
 
-const SwaggerAPI = require('../../dist/util/esi-api');
-let api = SwaggerAPI.API.getLocalAPI();
+const SwaggerAPI = require('../swagger-api');
+let api = SwaggerAPI.getLocalAPI();
 
 module.exports.handlers = exports.handlers = {
   processingComplete: function(e) {
@@ -109,8 +109,7 @@ function getUnimplementedExamples(examples) {
   }
 
   let newExamples = [];
-  console.log(api.routeIDs)
-  for (let id of api.routeIDs) {
+  for (let id of api.routeNames) {
     if (!(id in providedRoutes)) {
       let route = api.route(id);
       newExamples.push({

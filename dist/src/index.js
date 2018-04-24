@@ -32,7 +32,6 @@ const killmail_1 = require("./api/killmail");
 const sovereignty_1 = require("./api/sovereignty");
 const wars_1 = require("./api/wars");
 const characters_1 = require("./api/character/characters");
-const structures_1 = require("./api/universe/structures");
 __export(require("./error"));
 /**
  * The default configuration that specifies values for parameters that aren't
@@ -138,12 +137,6 @@ class APIImpl {
             this.moonAPI = moons_1.makeMoons(this.agent);
         }
         return this.moonAPI;
-    }
-    get structures() {
-        if (this.strctAPI === undefined) {
-            this.strctAPI = structures_1.makeStructures(this.agent);
-        }
-        return this.strctAPI;
     }
     get opportunities() {
         if (this.opportunityAPI === undefined) {

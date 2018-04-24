@@ -9,10 +9,10 @@
 
 const logger = require('jsdoc/util/logger');
 
-const SwaggerAPI = require('../../dist/util/esi-api');
+const SwaggerAPI = require('../swagger-api');
 const handleTag = require('./jsdoc-desc-helper');
 
-let api = SwaggerAPI.API.getLocalAPI();
+let api = SwaggerAPI.getLocalAPI();
 
 module.exports.defineTags = exports.defineTags = function(dictionary) {
   dictionary.defineTag('esi_route', {

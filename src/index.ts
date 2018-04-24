@@ -36,8 +36,6 @@ import { Wars, makeWars } from './api/wars';
 
 import { Characters, makeCharacters } from './api/character/characters';
 
-import { Structures, makeStructures } from './api/universe/structures';
-
 export {esi};
 export * from './error';
 
@@ -114,12 +112,6 @@ export interface API {
    * on the API's initialization options.
    */
   moons: Moons;
-
-  /**
-   * An instance of Structures using a shared ESIAgent configured based
-   * on the API's initialization options.
-   */
-  structures: Structures;
 
   /**
    * An instance of Opportunities using a shared ESIAgent configured based
@@ -305,7 +297,6 @@ class APIImpl implements API {
   private indyAPI?: Industry;
   private insuranceAPI?: Insurance;
   private moonAPI?: Moons;
-  private strctAPI?: Structures;
   private opportunityAPI?: Opportunities;
   private piAPI?: PlanetaryInteraction;
   private planetAPI?: Planets;
@@ -395,13 +386,6 @@ class APIImpl implements API {
       this.moonAPI = makeMoons(this.agent);
     }
     return this.moonAPI;
-  }
-
-  get structures() {
-    if (this.strctAPI === undefined) {
-      this.strctAPI = makeStructures(this.agent);
-    }
-    return this.strctAPI;
   }
 
   get opportunities() {
